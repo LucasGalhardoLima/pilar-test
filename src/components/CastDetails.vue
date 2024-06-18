@@ -11,7 +11,7 @@ interface Credits {
 
 defineProps<
     {
-        credits: Credits;
+        credits: Credits | undefined | null;
     }
 >();
 </script>
