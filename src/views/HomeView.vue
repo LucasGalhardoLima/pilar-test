@@ -101,7 +101,7 @@ watch(popularFilter, (newValue: string) => {
           <a class="min-w-40 pr-4" v-for="trendingItem in trendingData" :key="trendingItem.id"
             :href="`/${trendingItem.id}?media_type=${trendingItem.media_type}`">
             <img class="rounded-lg" :src="`https://image.tmdb.org/t/p/original${trendingItem.poster_path}`"
-              :alt="trendingItem.name">
+              :alt="trendingItem.name" loading="lazy">
             <p class="text-sm font-bold">{{ trendingItem.name || trendingItem.title }}</p>
             <p class="text-sm">{{ format(new Date(trendingItem.first_air_date || trendingItem.release_date), 'PP',
             { locale: ptBR }) }}
@@ -129,7 +129,7 @@ watch(popularFilter, (newValue: string) => {
           <a class="min-w-40 pr-4" v-for="popularItem in popularData" :key="popularItem.id"
             :href="`/${popularItem.id}?media_type=${popularItem.media_type}`">
             <img class="rounded-lg" :src="`https://image.tmdb.org/t/p/original${popularItem.poster_path}`"
-              :alt="popularItem.name">
+              :alt="popularItem.name" loading="lazy">
             <p class="text-sm font-bold">{{ popularItem.name || popularItem.title }}</p>
             <p class="text-sm">{{ format(new Date(popularItem.first_air_date || popularItem.release_date), 'PP',
             { locale: ptBR }) }}

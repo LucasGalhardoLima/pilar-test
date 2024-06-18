@@ -47,7 +47,8 @@ defineProps<Props>();
         <div class="flex flex-col">
             <div>
                 <img :src="`https://image.tmdb.org/t/p/original${details?.backdrop_path}`" alt="Movie poster"
-                    height="705" class="w-full z-0 max-h-[810px] bg-right-bottom bg-contain aspect-video">
+                    height="705" class="w-full z-0 max-h-[810px] bg-right-bottom bg-contain aspect-video"
+                    loading="lazy">
                 <div
                     class="flex flex-row p-12 gap-1 text-white bg-black/80 absolute top-0 left-0 w-full h-[810px] z-10 items-center">
                     <DetailsPoster :posterLink="`https://image.tmdb.org/t/p/original${details?.poster_path}`"
