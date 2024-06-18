@@ -1,4 +1,4 @@
-function toHoursAndMinutes(totalMinutes: number) {
+function toHoursAndMinutes(totalMinutes: number | undefined) {
   if (totalMinutes) {
     const hours = Math.floor(totalMinutes / 60)
     const minutes = totalMinutes % 60
