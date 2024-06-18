@@ -1,21 +1,13 @@
 <script setup lang="ts">
 import { format } from 'date-fns';
 import { defineProps } from 'vue';
+import { toHoursAndMinutes } from '@/utils/helpers';
+
 defineProps({
     details: Object,
     credits: Object
 });
 
-function toHoursAndMinutes(totalMinutes: number) {
-    if (totalMinutes) {
-        const hours = Math.floor(totalMinutes / 60);
-        const minutes = totalMinutes % 60;
-        return `${hours}h${minutes > 0 ? ` ${minutes}m` : ""}`;
-
-    }
-
-    return ''
-}
 </script>
 
 <template>
@@ -34,7 +26,7 @@ function toHoursAndMinutes(totalMinutes: number) {
                         </div>
                     </div>
                     <div class="flex-flex-col py-4 px-12">
-                        <h1 class="text-4xl font-bold mt-12">{{ details?.title }} <span
+                        <h1 v-if="details?.title" class="text-4xl font-bold mt-12">{{ details.title }} <span
                                 class="font-thin text-gray-500">{{
                     details?.release_date ? `(${format(new
                         Date(details.release_date),
@@ -47,7 +39,8 @@ function toHoursAndMinutes(totalMinutes: number) {
                             {{ '-' }}
                             <span>{{ toHoursAndMinutes(details?.runtime) }}</span>
                         </div>
-                        <h2 class="text-xl font-semibold my-2">Avaliação: {{ details?.vote_average?.toFixed(2) }}/10
+                        <h2 v-if="details?.vote_average" class="text-xl font-semibold my-2">Avaliação: {{
+                    details.vote_average.toFixed(2) }}/10
                         </h2>
                         <h3 class="text-xl font-thin italic mb-4">{{ details?.tagline }}</h3>
                         <div>
@@ -69,7 +62,8 @@ function toHoursAndMinutes(totalMinutes: number) {
                     <div v-for="actor in credits?.cast" :key="actor.id" class="min-w-36">
                         <div class="flex flex-col items-center border border-gray-100 rounded-lg h-80 drop-shadow-md">
                             <img class="w-36 h-52 rounded-t-lg"
-                                :src="`https://image.tmdb.org/t/p/original${actor.profile_path}`" alt="Actor">
+                                :src="actor.profile_path ? `https://image.tmdb.org/t/p/original${actor.profile_path}` : 'https://blocks.astratic.com/img/general-img-portrait.png'"
+                                alt="Actor">
                             <div class="px-4">
                                 <p class="text-sm font-semibold mt-2">{{ actor.name }}</p>
                                 <p class="text-sm">{{ actor.character }}</p>
