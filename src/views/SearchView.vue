@@ -77,7 +77,7 @@ onMounted(() => {
 
             <div v-else>
                 <div class="flex flex-col px-24 mt-4">
-                    <a v-for="result in searchResults" :key="result.id"
+                    <a id="search-result-item" v-for="result in searchResults" :key="result.id"
                         :href="`/${result.id}?media_type=${result.media_type}`"
                         class="bg-white min-h-36 flex flex-row mb-4 border border-grey-500 rounded-lg drop-shadow-md">
                         <img class="w-24 rounded-l-lg mr-4" loading="lazy" :src="validateImgSrc(result)" alt="Poster" />

@@ -40,45 +40,6 @@ interface Props {
 }
 
 defineProps<Props>();
-
-// defineProps({
-//     details: {
-//         type: Object as () => ({
-//             backdrop_path: string;
-//             poster_path: string;
-//             homepage: string;
-//             title: string;
-//             release_date: string;
-//             genres: Array<{
-//                 id: number;
-//                 name: string;
-//             }>;
-//             runtime: number;
-//             vote_average: number;
-//             tagline: string;
-//             overview: string;
-//             created_by: Array<{
-//                 id: number;
-//                 name: string;
-//             }>;
-//         }),
-//         default: () => ({})
-
-//     },
-//     credits: {
-//         type: Object as () => ({
-//             cast: Array<
-//                 {
-//                     id: number;
-//                     name: string;
-//                     profile_path: string;
-//                     character: string;
-//                 }
-//             >
-//         }),
-//         default: () => ({})
-//     }
-// });
 </script>
 
 <template>

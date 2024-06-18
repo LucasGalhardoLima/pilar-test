@@ -88,7 +88,7 @@ watch(popularFilter, (newValue: string) => {
         <input class="h-12 appearance-none outline-none bg-white rounded-full p-2 flex-1 pl-6" type="text"
           placeholder="Buscar por um Filme, Série ou Pessoa..." :value="searchString" @input="handleChange"
           @keydown.enter="goToSearchPage" />
-        <button
+        <button id="search-button"
           class="bg-gradient-to-r from-violet-500 to-fuchsia-500 py-2 px-4 rounded-full text-white -ml-12 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500"
           @click="goToSearchPage">Buscar</button>
       </div>
