@@ -5,7 +5,7 @@ export const usePopularStore = defineStore('popular', () => {
   async function fetchPopularMovies() {
     const response = await API.get('/movie/popular', {
       params: {
-        language: 'en-US'
+        language: 'pt-BR'
       }
     })
     return response.data.results
@@ -14,7 +14,7 @@ export const usePopularStore = defineStore('popular', () => {
   async function fetchPopularTvShows() {
     const response = await API.get('/tv/popular', {
       params: {
-        language: 'en-US'
+        language: 'pt-BR'
       }
     })
     return response.data.results

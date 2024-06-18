@@ -8,7 +8,7 @@ export const useSearchStore = defineStore('search', () => {
       params: {
         query,
         include_adult: true,
-        language: 'en-US'
+        language: 'pt-BR'
       }
     })
 

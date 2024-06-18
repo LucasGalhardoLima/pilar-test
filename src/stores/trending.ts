@@ -5,7 +5,7 @@ export const useTrendingStore = defineStore('trending', () => {
   async function fetchTrending() {
     const response = await API.get('/trending/all/day', {
       params: {
-        language: 'en-US'
+        language: 'pt-BR'
       }
     })
     return response.data.results
