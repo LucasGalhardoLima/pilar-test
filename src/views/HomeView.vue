@@ -31,6 +31,14 @@ const goToSearchPage = () => {
   router.push({ name: 'search', query: { query: searchString.value } });
 };
 
+function handleChange(event: Event) {
+  const inputElement = event.target as HTMLInputElement;
+  const value = inputElement.value;
+
+  searchString.value = value;
+  console.log(value);
+}
+
 onMounted(() => {
   fetchTrending();
   fetchPopularMovies();
@@ -56,8 +64,8 @@ watch(popularFilter, (newValue: any) => {
 
       <div class="flex">
         <input class="h-12 appearance-none outline-none bg-white rounded-full p-2 flex-1 pl-6" type="text"
-          placeholder="Buscar por um Filme, Série ou Pessoa..." :value="searchString"
-          @input="(e) => searchString = e?.target?.value" @keydown.enter="goToSearchPage" />
+          placeholder="Buscar por um Filme, Série ou Pessoa..." :value="searchString" @input="handleChange"
+          @keydown.enter="goToSearchPage" />
         <button
           class="bg-gradient-to-r from-violet-500 to-fuchsia-500 py-2 px-4 rounded-full text-white -ml-12 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500"
           @click="goToSearchPage">Buscar</button>

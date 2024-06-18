@@ -27,6 +27,14 @@ const validateImgSrc = (result: any) => {
     }
 };
 
+function handleChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const value = inputElement.value;
+
+    searchString.value = value;
+    console.log(value);
+}
+
 onMounted(() => {
     fetchSearch();
 });
@@ -37,8 +45,8 @@ onMounted(() => {
         <section
             class="h-24 px-2 bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% flex flex-row items-center">
             <input class="h-12 appearance-none outline-none bg-white rounded p-2 flex-1 pl-6 w-full" type="text"
-                placeholder="Buscar por um Filme, Série ou Pessoa..." :value="searchString"
-                @input="({ target }) => searchString = target?.value" @keydown.enter="fetchSearch" />
+                placeholder="Buscar por um Filme, Série ou Pessoa..." :value="searchString" @input="handleChange"
+                @keydown.enter="fetchSearch" />
             <button class="absolute right-6" v-if="searchString" @click="searchString = ''">x</button>
         </section>
 
