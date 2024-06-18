@@ -6,16 +6,22 @@ import ShowDetails from '../ShowDetailsView.vue'
 describe('ShowDetailsView', () => {
   test('renders tv show details correctly', () => {
     const details = {
-      backdrop_path: '/path/to/backdrop.jpg',
-      poster_path: '/path/to/poster.jpg',
-      homepage: 'https://example.com',
+      title: '',
       name: 'Example Show',
-      first_air_date: '2023-01-01',
-      genres: [{ name: 'Action' }, { name: 'Adventure' }],
+      release_date: '',
+      first_air_date: '2022-01-01',
+      genres: [
+        { id: 1, name: 'Drama' },
+        { id: 2, name: 'Comedy' }
+      ],
+      runtime: 120,
       vote_average: 8.5,
       tagline: 'An example tagline',
       overview: 'An example overview',
-      created_by: [{ id: 1, name: 'Creator One' }]
+      created_by: [{ id: 1, name: 'Test creator' }],
+      backdrop_path: '/path/to/backdrop.jpg',
+      poster_path: '/path/to/poster.jpg',
+      homepage: 'https://example.com'
     }
 
     const credits = {

@@ -1,28 +1,33 @@
 <script setup lang="ts">
+import type { LocationQueryValue } from 'vue-router';
 import { format } from 'date-fns';
-import { useRoute } from 'vue-router';
 import { toHoursAndMinutes } from '../utils/helpers';
+import { defineProps } from 'vue';
 
-defineProps({
-    title: String,
-    name: String,
-    release_date: String,
-    first_air_date: String,
-    genres: Array,
-    runtime: Number,
-    vote_average: Number,
-    tagline: String,
-    overview: String,
-    created_by: {
-        type: Array<{
-            id: number;
-            name: string;
-        }>,
-        default: () => []
-    }
-});
+type MediaType = LocationQueryValue | LocationQueryValue[];
 
-const route = useRoute();
+interface Props {
+    media_type: MediaType;
+    title: string;
+    name: string;
+    release_date: string;
+    first_air_date: string;
+    genres: Array<{
+        id: number;
+        name: string;
+    }>;
+    runtime: number;
+    vote_average: number;
+    tagline: string;
+    overview: string;
+    created_by: Array<{
+        id: number;
+        name: string;
+    }>;
+}
+
+defineProps<Props>();
+
 </script>
 
 <template>
@@ -35,7 +40,7 @@ const route = useRoute();
             first_air_date ? `(${format(new
                 Date(first_air_date),
                 'yyyy')})` : '' }}</span></h1>
-        <div v-if="route.query.media_type === 'movie'" class="my-2">
+        <div v-if="media_type === 'movie'" class="my-2">
             <span>{{ release_date ? `${format(new Date(release_date),
             'dd/MM/yyyy')}` : '' }}</span>
             {{ '-' }}
@@ -43,8 +48,8 @@ const route = useRoute();
             {{ '-' }}
             <span>{{ toHoursAndMinutes(runtime) }}</span>
         </div>
-        <div v-else-if="route.query.media_type === 'tv'" class="my-2">
-            <span>{{ genres?.map((item: any) => item.name)?.join(', ') }}</span>
+        <div v-else-if="media_type === 'tv'" class="my-2">
+            <span id="genres" data-test="genres">{{ genres?.map((item: any) => item.name)?.join(', ') }}</span>
         </div>
         <h2 v-if="vote_average" class="text-xl font-semibold my-2">Avaliação: {{
             vote_average.toFixed(2) }}/10

@@ -10,7 +10,7 @@ defineProps({
                     character: string;
                 }
             >
-        }),
+        }) | undefined | null,
         default: () => ({})
     }
 });
