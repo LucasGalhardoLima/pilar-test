@@ -1,81 +1,11 @@
 <script setup lang="ts">
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale'
-import { onMounted, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import { useTrendingStore } from '@/stores/trending';
-import { usePopularStore } from '@/stores/popular';
+import { ref } from 'vue';
 
-const router = useRouter();
-const trendingStore = useTrendingStore();
-const popularStore = usePopularStore();
+import SearchInput from '@/components/SearchInput.vue';
+import TrendingItems from '@/components/TrendingItems.vue';
+import PopularItems from '@/components/PopularItems.vue';
 
-const searchString = ref<string>('');
-const trendingData = ref<
-  {
-    id: number;
-    media_type: string;
-    name: string;
-    title: string;
-    poster_path: string;
-    first_air_date: string;
-    release_date: string;
-    vote_average: number;
-  }[]
->([]);
-
-const popularFilter = ref<string>('movies');
-
-const popularData = ref<
-  {
-    id: number;
-    media_type: string;
-    name: string;
-    title: string;
-    poster_path: string;
-    first_air_date: string;
-    release_date: string;
-    vote_average: number;
-  }[]
->([]);
-
-const fetchTrending = async () => {
-  trendingData.value = await trendingStore.fetchTrending();
-};
-
-const fetchPopularMovies = async () => {
-  popularData.value = await popularStore.fetchPopularMovies();
-};
-
-const fetchPopularTvShows = async () => {
-  popularData.value = await popularStore.fetchPopularTvShows();
-};
-
-const goToSearchPage = () => {
-  router.push({ name: 'search', query: { query: searchString.value } });
-};
-
-function handleChange(event: Event) {
-  const inputElement = event.target as HTMLInputElement;
-  const value = inputElement.value;
-
-  searchString.value = value;
-}
-
-onMounted(() => {
-  fetchTrending();
-  fetchPopularMovies();
-});
-
-watch(popularFilter, (newValue: string) => {
-  if (newValue === 'movies') {
-    fetchPopularMovies();
-  } else {
-    fetchPopularTvShows();
-  }
-});
-
-
+const popularFilter = ref<string>('movie');
 </script>
 
 <template>
@@ -83,33 +13,13 @@ watch(popularFilter, (newValue: string) => {
     <section class="h-80 py-4 px-24 bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col justify-center">
       <h1 class="text-white text-3xl font-bold">Bem-Vindo(a)</h1>
       <p class="text-white mb-8 text-xl">Milhões de Filmes, Séries e Pessoas para Descobrir. Explore já.</p>
-
-      <div class="flex">
-        <input class="h-12 appearance-none outline-none bg-white rounded-full p-2 flex-1 pl-6" type="text"
-          placeholder="Buscar por um Filme, Série ou Pessoa..." :value="searchString" @input="handleChange"
-          @keydown.enter="goToSearchPage" />
-        <button id="search-button"
-          class="bg-gradient-to-r from-violet-500 to-fuchsia-500 py-2 px-4 rounded-full text-white -ml-12 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500"
-          @click="goToSearchPage">Buscar</button>
-      </div>
+      <SearchInput />
     </section>
     <section class="pl-24">
       <div class="py-4 flex flex-col">
         <h2 class="text-xl font-bold mb-4">Tendências</h2>
+        <TrendingItems />
 
-        <div class="flex overflow-x-auto">
-          <a class="min-w-40 pr-4" v-for="trendingItem in trendingData" :key="trendingItem.id"
-            :href="`/${trendingItem.id}?media_type=${trendingItem.media_type}`">
-            <img class="rounded-lg" :src="`https://image.tmdb.org/t/p/original${trendingItem.poster_path}`"
-              :alt="trendingItem.name" loading="lazy">
-            <p class="text-sm font-bold">{{ trendingItem.name || trendingItem.title }}</p>
-            <p class="text-sm">{{ format(new Date(trendingItem.first_air_date || trendingItem.release_date), 'PP',
-            { locale: ptBR }) }}
-            </p>
-            <p class="text-sm">Nota: <span class="font-bold">{{ (trendingItem.vote_average * 10).toFixed(1) }}/10</span>
-            </p>
-          </a>
-        </div>
 
       </div>
       <div class="py-4">
@@ -117,27 +27,15 @@ watch(popularFilter, (newValue: string) => {
           <h2 class="text-xl font-bold mr-4">Os mais populares</h2>
           <div class="border-2 border-sky-500 rounded-full">
             <button class="py-1 px-2 ease-linear"
-              :class="popularFilter === 'movies' ? 'rounded-full bg-sky-700 ease-in duration-300' : 'ease-out duration-300'"
-              @click="popularFilter = 'movies'">Filmes</button>
+              :class="popularFilter === 'movie' ? 'rounded-full bg-sky-700 ease-in duration-300' : 'ease-out duration-300'"
+              @click="popularFilter = 'movie'">Filmes</button>
             <button class="py-1 px-2 ease-linear"
-              :class="popularFilter === 'shows' ? 'rounded-full bg-sky-700 ease-in duration-300' : 'ease-out duration-300'"
-              @click="popularFilter = 'shows'">Séries</button>
+              :class="popularFilter === 'tv' ? 'rounded-full bg-sky-700 ease-in duration-300' : 'ease-out duration-300'"
+              @click="popularFilter = 'tv'">Séries</button>
           </div>
         </div>
 
-        <div class="flex overflow-x-auto">
-          <a class="min-w-40 pr-4" v-for="popularItem in popularData" :key="popularItem.id"
-            :href="`/${popularItem.id}?media_type=${popularItem.media_type}`">
-            <img class="rounded-lg" :src="`https://image.tmdb.org/t/p/original${popularItem.poster_path}`"
-              :alt="popularItem.name" loading="lazy">
-            <p class="text-sm font-bold">{{ popularItem.name || popularItem.title }}</p>
-            <p class="text-sm">{{ format(new Date(popularItem.first_air_date || popularItem.release_date), 'PP',
-            { locale: ptBR }) }}
-            </p>
-            <p class="text-sm">Nota: <span class="font-bold">{{ (popularItem.vote_average * 10).toFixed(1) }}/10</span>
-            </p>
-          </a>
-        </div>
+        <PopularItems :popularFilter="popularFilter" />
       </div>
     </section>
   </main>
