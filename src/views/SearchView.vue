@@ -9,13 +9,33 @@ const route = useRoute();
 const searchStore = useSearchStore();
 
 const searchString = ref<string | LocationQueryValue[]>(route.query.query as string);
-const searchResults = ref<any[]>([]);
+const searchResults = ref<
+    {
+        id: number;
+        media_type: string;
+        name: string;
+        title: string;
+        poster_path: string;
+        backdrop_path: string;
+        profile_path: string;
+        first_air_date: string;
+        release_date: string;
+        overview: string;
+        original_title: string;
+        original_name: string;
+    }[]
+>([]);
 
 const fetchSearch = async () => {
     searchResults.value = await searchStore.fetchSearch(searchString.value);
 };
 
-const validateImgSrc = (result: any) => {
+const validateImgSrc = (result: {
+    media_type: string;
+    poster_path: string;
+    backdrop_path: string;
+    profile_path: string;
+}) => {
     if (result.media_type === 'person') {
         return result.profile_path ? `https://image.tmdb.org/t/p/original${result.profile_path}` : 'https://blocks.astratic.com/img/general-img-portrait.png';
     } else if (!result.poster_path) {
@@ -32,7 +52,6 @@ function handleChange(event: Event) {
     const value = inputElement.value;
 
     searchString.value = value;
-    console.log(value);
 }
 
 onMounted(() => {

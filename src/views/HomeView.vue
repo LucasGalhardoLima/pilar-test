@@ -10,10 +10,34 @@ const router = useRouter();
 const trendingStore = useTrendingStore();
 const popularStore = usePopularStore();
 
-const searchString = ref('');
-const trendingData = ref<any>([]);
-const popularFilter = ref('movies');
-const popularData = ref<any>([]);
+const searchString = ref<string>('');
+const trendingData = ref<
+  {
+    id: number;
+    media_type: string;
+    name: string;
+    title: string;
+    poster_path: string;
+    first_air_date: string;
+    release_date: string;
+    vote_average: number;
+  }[]
+>([]);
+
+const popularFilter = ref<string>('movies');
+
+const popularData = ref<
+  {
+    id: number;
+    media_type: string;
+    name: string;
+    title: string;
+    poster_path: string;
+    first_air_date: string;
+    release_date: string;
+    vote_average: number;
+  }[]
+>([]);
 
 const fetchTrending = async () => {
   trendingData.value = await trendingStore.fetchTrending();
@@ -36,7 +60,6 @@ function handleChange(event: Event) {
   const value = inputElement.value;
 
   searchString.value = value;
-  console.log(value);
 }
 
 onMounted(() => {
@@ -44,8 +67,7 @@ onMounted(() => {
   fetchPopularMovies();
 });
 
-watch(popularFilter, (newValue: any) => {
-  console.log(newValue);
+watch(popularFilter, (newValue: string) => {
   if (newValue === 'movies') {
     fetchPopularMovies();
   } else {

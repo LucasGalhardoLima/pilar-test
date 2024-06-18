@@ -1,19 +1,19 @@
 <script setup lang="ts">
-defineProps({
-    credits: {
-        type: Object as () => ({
-            cast: Array<
-                {
-                    id: number;
-                    name: string;
-                    profile_path: string;
-                    character: string;
-                }
-            >
-        }) | undefined | null,
-        default: () => ({})
+interface Cast {
+    id: number;
+    name: string;
+    profile_path: string;
+    character: string;
+}
+interface Credits {
+    cast: Cast[];
+}
+
+defineProps<
+    {
+        credits: Credits;
     }
-});
+>();
 </script>
 
 <template>

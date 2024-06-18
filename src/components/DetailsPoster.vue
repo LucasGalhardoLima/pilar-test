@@ -1,8 +1,10 @@
 <script setup lang="ts">
-defineProps({
-    posterLink: String,
-    website: String
-});
+defineProps<
+    {
+        posterLink: string;
+        website: string;
+    }
+>();
 </script>
 
 <template>
