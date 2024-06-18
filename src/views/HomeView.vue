@@ -2,12 +2,15 @@
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale'
 import { onMounted, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useTrendingStore } from '@/stores/trending';
 import { usePopularStore } from '@/stores/popular';
 
+const router = useRouter();
 const trendingStore = useTrendingStore();
 const popularStore = usePopularStore();
 
+const searchString = ref('');
 const trendingData = ref<any>([]);
 const popularFilter = ref('movies');
 const popularData = ref<any>([]);
@@ -22,6 +25,10 @@ const fetchPopularMovies = async () => {
 
 const fetchPopularTvShows = async () => {
   popularData.value = await popularStore.fetchPopularTvShows();
+};
+
+const goToSearchPage = () => {
+  router.push({ name: 'search', query: { query: searchString.value } });
 };
 
 onMounted(() => {
@@ -48,10 +55,12 @@ watch(popularFilter, (newValue: any) => {
       <p class="text-white mb-8 text-xl">Milhões de Filmes, Séries e Pessoas para Descobrir. Explore já.</p>
 
       <div class="flex">
-        <input class="h-12 appearance-none outline-none bg-white rounded-full p-2 flex-1" type="text"
-          placeholder="Buscar por um Filme, Série ou Pessoa..." />
+        <input class="h-12 appearance-none outline-none bg-white rounded-full p-2 flex-1 pl-6" type="text"
+          placeholder="Buscar por um Filme, Série ou Pessoa..." :value="searchString"
+          @input="(e) => searchString = e?.target?.value" @keydown.enter="goToSearchPage" />
         <button
-          class="bg-gradient-to-r from-violet-500 to-fuchsia-500 py-2 px-4 rounded-full text-white -ml-12 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500">Buscar</button>
+          class="bg-gradient-to-r from-violet-500 to-fuchsia-500 py-2 px-4 rounded-full text-white -ml-12 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500"
+          @click="goToSearchPage">Buscar</button>
       </div>
     </section>
     <section class="pl-24">

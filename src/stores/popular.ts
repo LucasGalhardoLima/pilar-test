@@ -1,15 +1,10 @@
-import axios from 'axios'
 import { defineStore } from 'pinia'
+import { API } from '@/utils/axios'
 
 export const usePopularStore = defineStore('popular', () => {
-  const popular = axios.create({
-    baseURL: 'https://api.themoviedb.org/3'
-  })
-
   async function fetchPopularMovies() {
-    const response = await popular.get('/movie/popular', {
+    const response = await API.get('/movie/popular', {
       params: {
-        api_key: 'ee91c6d5af59b60483bf56a8c9644f68',
         language: 'en-US'
       }
     })
@@ -17,9 +12,9 @@ export const usePopularStore = defineStore('popular', () => {
   }
 
   async function fetchPopularTvShows() {
-    const response = await popular.get('/tv/popular', {
+    const response = await API.get('/tv/popular', {
       params: {
-        api_key: 'ee91c6d5af59b60483bf56a8c9644f68'
+        language: 'en-US'
       }
     })
     return response.data.results
